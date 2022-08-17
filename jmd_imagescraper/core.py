@@ -64,6 +64,12 @@ class ImgColor(Enum):
   White="White"
 
 # Cell
+class SafeSearch(Enum):
+  Strict="1"
+  Moderate="-1"
+  Off="-2"
+
+# Cell
 def duckduckgo_scrape_urls(keywords: str, max_results: int,
                            img_size: ImgSize=ImgSize.Cached,
                            img_type: ImgType=ImgType.Photo,
@@ -101,6 +107,8 @@ def duckduckgo_scrape_urls(keywords: str, max_results: int,
   if(img_layout != ImgLayout.All): filters +=  "layout:" + img_layout.name
   filters += ","
   if(img_color != ImgColor.All): filters +=  "color:" + img_color.name
+  
+  safeMode = img_safesearch
 
   PARAMS = (
       ('l', 'us-en'),
@@ -110,6 +118,7 @@ def duckduckgo_scrape_urls(keywords: str, max_results: int,
       ('f', filters),
       ('p', '1'),
       ('v7exp', 'a'),
+      ('kp', safeMode)
   )
 
   requestUrl = BASE_URL + "i.js"
